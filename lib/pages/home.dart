@@ -7,7 +7,9 @@ import 'package:firebase_auth/firebase_auth.dart'; // Import for Firebase authen
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import for Firestore
 import 'package:ecom/pages/login.dart';
 import 'package:ecom/pages/favourite.dart';
-import 'package:ecom/pages/setting.dart'; // Import Settings page
+import 'package:ecom/pages/setting.dart';
+import 'package:ecom/pages/account.dart';
+import 'package:ecom/pages/about.dart';// Import Settings page
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -185,7 +187,10 @@ class _HomePageState extends State<HomePage> {
                       leading: Icon(Icons.person_2, color: _isDarkMode ? Colors.white : Colors.black),
                       title: Text("My Account", style: TextStyle(color: _isDarkMode ? Colors.white : Colors.black)),
                       onTap: () {
-                        Navigator.pop(context); // Close the drawer
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AccountInfoPage()),
+                        );// Close the drawer
                       },
                     ),
                     ListTile(
@@ -237,7 +242,10 @@ class _HomePageState extends State<HomePage> {
                       leading: Icon(Icons.help, color: Colors.greenAccent),
                       title: Text("About", style: TextStyle(color: _isDarkMode ? Colors.white : Colors.black)),
                       onTap: () {
-                        Navigator.pop(context); // Close the drawer
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AboutPage()),
+                        );// Close the drawer
                       },
                     ),
                     Divider(color: _isDarkMode ? Colors.white30 : Colors.black12),

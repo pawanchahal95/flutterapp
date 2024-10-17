@@ -106,7 +106,7 @@ class ProductCard extends StatelessWidget {
                     ),
                     SizedBox(height: 4.0),
                     Text(
-                      "\£$productNewPrice",
+                      "\₹$productNewPrice",
                       style: TextStyle(
                         color: Colors.red,
                         fontWeight: FontWeight.w800,
@@ -114,7 +114,7 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "\£$productOldPrice",
+                      "\₹$productOldPrice",
                       style: TextStyle(
                         color: Colors.grey,
                         decoration: TextDecoration.lineThrough,

@@ -180,7 +180,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     children: <Widget>[
                       Expanded(
                         child: Text(
-                          "\£${widget.product_detail_old_price}",
+                          "\₹${widget.product_detail_old_price}",
                           style: TextStyle(
                               color: isDarkMode ? Colors.grey : Colors.black54,
                               decoration: TextDecoration.lineThrough),
@@ -188,7 +188,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                       Expanded(
                         child: Text(
-                          "\£${widget.product_detail_new_price}",
+                          "\₹${widget.product_detail_new_price}",
                           style: TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.w800,
@@ -471,7 +471,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
               Padding(
                 padding: const EdgeInsets.all(5.0),
-                child: Text("\£${widget.product_detail_new_price}", style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
+                child: Text("\₹${widget.product_detail_new_price}", style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
               ),
             ],
           ),

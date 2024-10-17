@@ -50,7 +50,8 @@ class FavoriteProductsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Favorite Products'),
-        backgroundColor: Colors.red, // Keep AppBar color constant
+        backgroundColor: Colors.red, // AppBar color
+        elevation: 5,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: getFavoriteProducts(),
@@ -108,52 +109,77 @@ class FavoriteProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(8.0),
+      margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       color: isDarkMode ? Colors.grey[850] : Colors.white,
+      elevation: 8, // Adds shadow to the card
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(productPicture, fit: BoxFit.cover, height: 200.0),
-            SizedBox(height: 8.0),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.0), // Rounded image
+              child: Image.asset(
+                productPicture,
+                fit: BoxFit.cover,
+                height: 200.0,
+                width: double.infinity,
+              ),
+            ),
+            SizedBox(height: 12.0),
             Text(
               productName,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 18.0,
+                fontSize: 20.0,
                 color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
-            SizedBox(height: 4.0),
-            Text(
-              "\$$productNewPrice",
-              style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.w800,
-                fontSize: 16.0,
-              ),
+            SizedBox(height: 6.0),
+            Row(
+              children: [
+                Text(
+                  "\₹$productNewPrice",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18.0,
+                  ),
+                ),
+                SizedBox(width: 8.0),
+                Text(
+                  "\₹$productOldPrice",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    decoration: TextDecoration.lineThrough,
+                    fontSize: 16.0,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              "\$$productOldPrice",
-              style: TextStyle(
-                color: Colors.grey,
-                decoration: TextDecoration.lineThrough,
-                fontSize: 16.0,
-              ),
-            ),
-            SizedBox(height: 8.0),
+            SizedBox(height: 10.0),
             Text(
               productDetail,
               style: TextStyle(
                 color: isDarkMode ? Colors.white70 : Colors.black87,
+                fontSize: 14.0,
               ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis, // Limit text overflow
             ),
-            SizedBox(height: 8.0),
+            SizedBox(height: 12.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red, // Button color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0), // Rounded button
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                  ),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -167,10 +193,10 @@ class FavoriteProductItem extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text('View Details'),
+                  child: Text('View Details', style: TextStyle(fontSize: 16.0)),
                 ),
                 IconButton(
-                  icon: Icon(Icons.favorite, color: Colors.red),
+                  icon: Icon(Icons.delete, color: Colors.red),
                   onPressed: onRemoveFromFavorites,
                 ),
               ],

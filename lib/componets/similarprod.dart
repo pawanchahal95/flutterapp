@@ -88,7 +88,7 @@ class SimilarProducts extends StatelessWidget {
                             ),
                           ),
                           Text(name, overflow: TextOverflow.ellipsis),
-                          Text('\£${price.toStringAsFixed(2)}'),
+                          Text('\₹${price.toStringAsFixed(2)}'),
                         ],
                       ),
                     ),

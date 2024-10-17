@@ -95,75 +95,76 @@ class _CartState extends State<Cart> {
             itemCount: cartItems.length,
             itemBuilder: (context, index) {
               final item = cartItems[index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProductDetails(
-                        product_detail_name: item.name,
-                        product_detail_new_price: item.price.toInt(),
-                        product_detail_old_price: item.oldPrice.toInt(),
-                        product_detail_picture: item.picture,
-                        product_detail_detail: item.details,
-                      ),
-                    ),
-                  );
-                },
-                child: Container(
-                  height: 140,
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 5, offset: Offset(0, 3))],
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        width: 100,
-                        height: 100,
-                        margin: EdgeInsets.all(8),
-                        child: Image.asset(
-                          item.picture,
-                          fit: BoxFit.cover,
+              return Dismissible(
+                key: Key(item.id),
+                background: Container(color: Colors.red, child: Icon(Icons.delete, color: Colors.white)),
+                onDismissed: (_) => _deleteItem(item),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductDetails(
+                          product_detail_name: item.name,
+                          product_detail_new_price: item.price.toInt(),
+                          product_detail_old_price: item.oldPrice.toInt(),
+                          product_detail_picture: item.picture,
+                          product_detail_detail: item.details,
                         ),
                       ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    );
+                  },
+                  child: Container(
+                    height: 140,
+                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 5, offset: Offset(0, 3))],
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: 100,
+                          height: 100,
+                          margin: EdgeInsets.all(8),
+                          child: Image.asset(
+                            item.picture,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(item.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                              Text('\₹${item.price.toStringAsFixed(2)}'),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: Icon(Icons.remove, color: Colors.red),
+                                    onPressed: () => _updateQuantity(item, -1),
+                                  ),
+                                  Text('${item.quantity}', style: TextStyle(fontSize: 18)),
+                                  IconButton(
+                                    icon: Icon(Icons.add, color: Colors.red),
+                                    onPressed: () => _updateQuantity(item, 1),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(item.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                            Text('\$${item.price.toStringAsFixed(2)}'),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                IconButton(
-                                  icon: Icon(Icons.remove, color: Colors.red),
-                                  onPressed: () => _updateQuantity(item, -1),
-                                ),
-                                Text('${item.quantity}'),
-                                IconButton(
-                                  icon: Icon(Icons.add, color: Colors.red),
-                                  onPressed: () => _updateQuantity(item, 1),
-                                ),
-                              ],
-                            ),
+                            Text('\₹${(item.price * item.quantity).toStringAsFixed(2)}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                           ],
                         ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text('\$${(item.price * item.quantity).toStringAsFixed(2)}'),
-                          IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
-                            onPressed: () => _deleteItem(item),
-                          ),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -177,7 +178,7 @@ class _CartState extends State<Cart> {
           children: <Widget>[
             Expanded(
               child: ListTile(
-                title: Text("Total:"),
+                title: Text("Total:", style: TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: FutureBuilder<List<CartItem>>(
                   future: _cartItemsFuture,
                   builder: (context, snapshot) {
@@ -188,7 +189,7 @@ class _CartState extends State<Cart> {
                       return Text("\$0.00");
                     }
                     final total = snapshot.data!.fold<double>(0, (sum, item) => sum + (item.price * item.quantity));
-                    return Text("\$${total.toStringAsFixed(2)}");
+                    return Text("\₹${total.toStringAsFixed(2)}", style: TextStyle(fontWeight: FontWeight.bold));
                   },
                 ),
               ),
@@ -198,7 +199,7 @@ class _CartState extends State<Cart> {
                 onPressed: () {
                   // Implement checkout logic
                 },
-                child: Text("Check out", style: TextStyle(color: Colors.white70)),
+                child: Text("Check out", style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold)),
                 color: Colors.red,
               ),
             ),
